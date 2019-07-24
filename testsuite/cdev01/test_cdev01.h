@@ -42,6 +42,7 @@ typedef enum {
 	TEST_WRITEV,
 	TEST_POLL,
 	TEST_KQFILTER,
+        TEST_MMAP,
 	TEST_CLOSED
 } test_state;
 
