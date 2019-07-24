@@ -65,6 +65,7 @@ SYSINIT_DRIVER_REFERENCE(rtems_i2c, simplebus);
 SYSINIT_DRIVER_REFERENCE(ofw_iicbus, rtems_i2c);
 SYSINIT_DRIVER_REFERENCE(iic, iicbus);
 SYSINIT_DRIVER_REFERENCE(iicbus, rtems_i2c);
+SYSINIT_DRIVER_REFERENCE(ti_pruss, simplebus);
 #ifdef RTEMS_BSD_MODULE_NET80211
 SYSINIT_DRIVER_REFERENCE(rtwn_usb, uhub);
 SYSINIT_MODULE_REFERENCE(wlan_ratectl_none);
