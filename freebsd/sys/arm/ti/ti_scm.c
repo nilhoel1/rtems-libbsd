@@ -179,5 +179,11 @@ static driver_t ti_scm_driver = {
 
 static devclass_t ti_scm_devclass;
 
+#ifdef __rtems__
+EARLY_DRIVER_MODULE_ORDERED(ti_scm, simplebus, ti_scm_driver, ti_scm_devclass, 0, 0, SI_ORDER_FIRST,
+    BUS_PASS_BUS + BUS_PASS_ORDER_MIDDLE);
+MODULE_VERSION(ti_scm, 1);
+#else /* __rtems__ */
 EARLY_DRIVER_MODULE(ti_scm, simplebus, ti_scm_driver, ti_scm_devclass, 0, 0,
     BUS_PASS_BUS + BUS_PASS_ORDER_MIDDLE);
+#endif /* __rtems__ */
