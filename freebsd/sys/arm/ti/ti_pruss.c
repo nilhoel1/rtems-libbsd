@@ -65,7 +65,7 @@ __FBSDID("$FreeBSD$");
 #include <dev/ofw/ofw_bus.h>
 #include <dev/ofw/ofw_bus_subr.h>
 
-#ifdef __rtems__
+#ifndef __rtems__
 #include <rtems/imfs.h>
 #include <rtems/fs.h>
 #endif /* __rtems */
@@ -174,7 +174,7 @@ static driver_t ti_pruss_driver = {
 static devclass_t ti_pruss_devclass;
 
 #ifdef __rtems__
-DRIVER_MODULE_ORDERED(ti_pruss, simplebus, ti_pruss_driver, ti_pruss_devclass, 0, 0, SI_ORDER_THIRD);
+DRIVER_MODULE_ORDERED(ti_pruss, simplebus, ti_pruss_driver, ti_pruss_devclass, 0, 0, SI_ORDER_ANY);
 MODULE_VERSION(ti_pruss, 1);
 MODULE_DEPEND(ti_pruss, am335x_prcm, 1, 1, 1);
 #else /* __rtems__ */

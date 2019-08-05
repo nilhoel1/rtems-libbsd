@@ -165,6 +165,7 @@ static bool device_frozen;
 #define DRIVERNAME(d)	((d)? d->name : "no driver")
 #define DEVCLANAME(d)	((d)? d->name : "no devclass")
 
+#define BUS_DEBUG
 #ifdef BUS_DEBUG
 
 static int bus_debug = 1;

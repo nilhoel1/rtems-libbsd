@@ -1351,9 +1351,9 @@ class dev_pruss_bbb(builder.Module):
         )
         self.addKernelSpaceSourceFiles(
             [
-                'sys/arm/ti/ti_scm.c',
-                'sys/arm/ti/am335x/am335x_prcm.c',
-                'sys/arm/ti/ti_prcm.c',
+                #'sys/arm/ti/ti_scm.c',
+                #'sys/arm/ti/am335x/am335x_prcm.c',
+                #'sys/arm/ti/ti_prcm.c',
                 'sys/arm/ti/ti_pruss.c',
             ],
             mm.generator['source']()
