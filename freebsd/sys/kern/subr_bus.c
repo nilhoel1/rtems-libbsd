@@ -5104,6 +5104,9 @@ root_bus_configure(void)
 	PDEBUG(("."));
 
 	/* Eventually this will be split up, but this is sufficient for now. */
+	#ifdef __rtems__
+	bus_set_pass(BUS_PASS_CPU);
+	#endif /* __rtems__ */
 	bus_set_pass(BUS_PASS_DEFAULT);
 }
 
