@@ -173,14 +173,8 @@ static driver_t ti_pruss_driver = {
 
 static devclass_t ti_pruss_devclass;
 
-#ifdef __rtems__
-DRIVER_MODULE_ORDERED(ti_pruss, simplebus, ti_pruss_driver, ti_pruss_devclass, 0, 0, SI_ORDER_ANY);
-MODULE_VERSION(ti_pruss, 1);
-MODULE_DEPEND(ti_pruss, am335x_prcm, 1, 1, 1);
-#else /* __rtems__ */
 DRIVER_MODULE(ti_pruss, simplebus, ti_pruss_driver, ti_pruss_devclass, 0, 0);
 MODULE_DEPEND(ti_pruss, ti_prcm, 1, 1, 1);
-#endif /* __rtems__ */
 
 static struct resource_spec ti_pruss_irq_spec[] = {
 	{ SYS_RES_IRQ,	    0,  RF_ACTIVE },
