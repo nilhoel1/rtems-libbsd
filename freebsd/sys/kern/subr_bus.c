@@ -165,7 +165,6 @@ static bool device_frozen;
 #define DRIVERNAME(d)	((d)? d->name : "no driver")
 #define DEVCLANAME(d)	((d)? d->name : "no devclass")
 
-#define BUS_DEBUG
 #ifdef BUS_DEBUG
 
 static int bus_debug = 1;
@@ -5105,7 +5104,26 @@ root_bus_configure(void)
 
 	/* Eventually this will be split up, but this is sufficient for now. */
 	#ifdef __rtems__
-	bus_set_pass(BUS_PASS_CPU);
+	//print the driver list
+	struct driverlink *dl;
+
+	printk("========== passlink List ==========\n");
+
+	TAILQ_FOREACH(dl, &passes, passlink) {
+		printk("Name: %s, Pass: %d\n" ,dl->driver->name ,dl->pass);
+	}
+
+	printk("========== link List ==========\n");
+
+	devclass_t dc;
+
+	TAILQ_FOREACH(dc, &devclasses, link) {
+		printk("DevClass: %s\n" ,dc->name);
+	}
+
+	printk("========== First Pass ==========\n");
+	bus_set_pass(BUS_PASS_DEFAULT);
+	printk("========== Second Pass ==========\n");
 	#endif /* __rtems__ */
 	bus_set_pass(BUS_PASS_DEFAULT);
 }
