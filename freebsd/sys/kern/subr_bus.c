@@ -4065,6 +4065,7 @@ bus_generic_new_pass(device_t dev)
 
 	dc = dev->devclass;
 	TAILQ_FOREACH(dl, &dc->drivers, link) {
+		printk("==== CurrentPass: %d, Device %s, dl->pass: %d ===\n", bus_current_pass, dl->driver->name, dl->pass);
 		if (dl->pass == bus_current_pass)
 			DEVICE_IDENTIFY(dl->driver, dev);
 	}
@@ -5118,11 +5119,18 @@ root_bus_configure(void)
 	devclass_t dc;
 
 	TAILQ_FOREACH(dc, &devclasses, link) {
-		printk("DevClass: %s\n" ,dc->name);
+		if(dc->parent){
+			printk("DevClass: %s, Maxunit: %d, ParentClass: %s\n" ,
+				dc->name, dc->maxunit, dc->parent->name);
+		}
+		else {
+			printk("DevClass: %s, Maxunit: %d, ParentClass: NULL\n" ,
+				dc->name, dc->maxunit);
+		}
 	}
 
 	printk("========== First Pass ==========\n");
-	bus_set_pass(BUS_PASS_DEFAULT);
+	bus_set_pass(BUS_PASS_BUS);
 	printk("========== Second Pass ==========\n");
 	#endif /* __rtems__ */
 	bus_set_pass(BUS_PASS_DEFAULT);
