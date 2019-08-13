@@ -777,6 +777,94 @@ class iic(builder.Module):
             mm.generator['source']()
         )
 
+
+#
+# DISPLAY
+#
+class display(builder.Module):
+
+    def __init__(self, manager):
+        super(display, self).__init__(manager, type(self).__name__)
+
+    def generate(self):
+        mm = self.manager
+        self.addKernelSpaceHeaderFiles(
+            [
+                'sys/dev/extres/clk/clk.h',
+                'sys/dev/videomode/videomode.h',
+                'sys/dev/videomode/edidvar.h',
+                'sys/dev/videomode/edidreg.h',
+                'sys/dev/videomode/ediddevs.h',
+                'sys/dev/videomode/ediddevs_data.h',
+                'sys/dev/videomode/vesagtf.h',
+                'sys/dev/vt/hw/fb/vt_fb.h',
+                'sys/dev/vt/colors/vt_termcolors.h',
+                'sys/dev/vt/vt.h',
+                'sys/dev/fb/fbreg.h',
+                'sys/teken/teken.h',
+                'sys/sys/fbio.h',
+                'sys/sys/consio.h',
+                'sys/sys/terminal.h',
+                'sys/arm/ti/am335x/am335x_lcd.h',
+                'sys/arm/ti/am335x/am335x_pwm.h',
+            ]
+        )
+        self.addKernelSpaceSourceFiles(
+            [
+                'sys/arm/ti/am335x/tda19988.c',
+                'sys/dev/videomode/pickmode.c',
+                'sys/dev/videomode/edid.c',
+                'sys/dev/videomode/vesagtf.c',
+                'sys/dev/videomode/videomode.c',
+                'sys/dev/fb/fb.c',
+                'sys/dev/fb/fbd.c',
+                'sys/arm/ti/am335x/am335x_lcd.c',
+                'sys/arm/ti/am335x/am335x_pwmss.c',
+                'sys/arm/ti/am335x/am335x_ecap.c',
+            ],
+            mm.generator['source']()
+        )
+        self.addRTEMSSourceFiles(
+            [
+                'local/clknode_if.c',
+                'local/hdmi_if.c',
+                'local/fb_if.c',
+            ],
+            mm.generator['source']()
+        )
+
+#
+# PINMUX
+#
+class pinmux(builder.Module):
+
+    def __init__(self, manager):
+        super(pinmux, self).__init__(manager, type(self).__name__)
+
+    def generate(self):
+        mm = self.manager
+        self.addKernelSpaceHeaderFiles(
+            [
+                'sys/arm/ti/ti_pinmux.h',
+                'sys/arm/ti/omap4/omap4_scm_padconf.h',
+                'sys/arm/ti/am335x/am335x_scm_padconf.h',
+            ]
+        )
+        self.addKernelSpaceSourceFiles(
+            [
+                'sys/arm/ti/ti_pinmux.c',
+                'sys/dev/fdt/fdt_pinctrl.c',
+                'sys/arm/ti/am335x/am335x_scm_padconf.c',
+            ],
+            mm.generator['source']()
+        )
+        self.addRTEMSSourceFiles(
+            [
+                'local/fdt_pinctrl_if.c',
+            ],
+            mm.generator['source']()
+        )
+
 #
 # USB
 #
@@ -5134,6 +5222,8 @@ def load(mm):
     mm.addModule(dev_input(mm))
     mm.addModule(evdev(mm))
     mm.addModule(iic(mm))
+    mm.addModule(pinmux(mm))
+    mm.addModule(display(mm))
 
     mm.addModule(dev_usb(mm))
     mm.addModule(dev_usb_controller(mm))
