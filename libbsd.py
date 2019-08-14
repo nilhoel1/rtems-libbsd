@@ -1415,6 +1415,39 @@ class dev_wlan_rtwn(builder.Module):
         )
 
 #
+# BBB PRUSS
+#
+class dev_pruss_bbb(builder.Module):
+
+    def __init__(self, manager):
+        super(dev_pruss_bbb, self).__init__(manager, type(self).__name__)
+
+    def generate(self):
+        mm = self.manager
+        self.addDependency(mm['fdt'])
+        self.addKernelSpaceHeaderFiles(
+            [
+                'sys/arm/ti/ti_cpuid.h',
+                'sys/arm/ti/ti_prcm.h',
+                'sys/arm/ti/ti_scm.h',
+                'sys/arm/ti/tivar.h',
+                'sys/arm/ti/ti_pruss.h',
+                'sys/arm/ti/am335x/am335x_scm.h',
+                'sys/sys/timeet.h',
+                'sys/dev/fdt/fdt_pinctrl.h',
+        ]
+        )
+        self.addKernelSpaceSourceFiles(
+            [
+                'sys/arm/ti/ti_scm.c',
+                'sys/arm/ti/am335x/am335x_prcm.c',
+                'sys/arm/ti/ti_prcm.c',
+                'sys/arm/ti/ti_pruss.c',
+            ],
+            mm.generator['source']()
+        )
+
+#
 # CAM
 #
 class cam(builder.Module):
@@ -5238,6 +5271,8 @@ def load(mm):
     mm.addModule(cam(mm))
     mm.addModule(dev_usb_storage(mm))
     mm.addModule(dev_usb_controller_bbb(mm))
+
+    mm.addModule(dev_pruss_bbb(mm))
 
     mm.addModule(net(mm))
     mm.addModule(netinet(mm))

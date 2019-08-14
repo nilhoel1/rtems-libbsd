@@ -1,3 +1,5 @@
+#include <machine/rtems-bsd-kernel-space.h>
+
 /*-
  * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
  *
@@ -49,7 +51,11 @@ __FBSDID("$FreeBSD$");
 #include <sys/selinfo.h>
 #include <machine/bus.h>
 #include <machine/cpu.h>
+#ifndef __rtems__
 #include <machine/frame.h>
+#else /* __rtems__ */
+#include <machine/vm.h>
+#endif /* __rtems__ */
 #include <machine/intr.h>
 #include <machine/atomic.h>
 
@@ -349,7 +355,11 @@ ti_pruss_interrupts_enable(struct ti_pruss_softc *sc, int8_t irq, bool enable)
 static __inline void
 ti_pruss_map_write(struct ti_pruss_softc *sc, uint32_t basereg, uint8_t index, uint8_t content)
 {
+	#ifdef __rtems__
+	const size_t regadr = ((basereg + index) & (~0x03));
+	#else /* __rtems__ */
 	const size_t regadr = basereg + index & ~0x03;
+	#endif /* __rtems__ */
 	const size_t bitpos = (index & 0x03) * 8;
 	uint32_t rmw = ti_pruss_reg_read(sc, regadr);
 	rmw = (rmw & ~( 0xF << bitpos)) | ( (content & 0xF) << bitpos);
